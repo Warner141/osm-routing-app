@@ -1,0 +1,75 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  quality-and-test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgis/postgis:15-3.3
+        env:
+          POSTGRES_DB: test_db
+          POSTGRES_USER: runner
+          POSTGRES_PASSWORD: password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install PNPM Setup Engine
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Setup Node runtime
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install Monorepo Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run Lightning Linter (Oxlint)
+        run: pnpm turbo run lint
+
+      - name: Evaluate Monorepo Formatting (Oxfmt)
+        run: pnpm turbo run format
+
+      - name: Execute Strict Type Checking
+        run: pnpm turbo run typecheck
+
+      - name: Execute Vitest Test Suites
+        run: pnpm turbo run test
+        env:
+          DATABASE_URL: postgres://runner:password@localhost:5432/test_db
+
+      - name: Dry Run Local Migrations
+        run: pnpm --filter backend db:migrate
+        env:
+          DATABASE_URL: postgres://runner:password@localhost:5432/test_db
+
+      - name: Audit Git Structural Modifications (Git Diff Validation)
+        id: git-check
+        run: |
+          git diff --exit-code || (echo "Uncommitted changes or unexpected auto-formatting variants detected!" && exit 1)
+
+      - name: Safely Deploy/Sync Structural Changes to Staging Destination Database
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: pnpm --filter backend db:migrate
+        env:
+          DATABASE_URL: ${{ secrets.PRODUCTION_STAGING_DATABASE_URL }}
