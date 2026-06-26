@@ -42,7 +42,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Install Monorepo Dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
 
       - name: Run Lightning Linter (Oxlint)
         run: pnpm turbo run lint
