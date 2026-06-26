@@ -1,0 +1,9 @@
+node_modules
+.turbo
+dist
+.env
+.env.*
+! .env.example
+drizzle/
+osm2po-debug/
+*.osm.pbf

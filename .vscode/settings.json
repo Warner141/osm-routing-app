@@ -1,0 +1,10 @@
+{
+  "editor.formatOnSave": false,
+  "editor.codeActionsOnSave": {
+    "source.format.oxc": "always",
+    "source.fixAll.oxc": "always"
+  },
+  "oxc.enable.oxlint": true,
+  "oxc.enable.oxfmt": true,
+  "oxc.typeAware": true
+}
