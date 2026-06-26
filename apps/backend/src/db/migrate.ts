@@ -14,6 +14,10 @@ async function runMigration() {
   console.log("Running database migrations...");
 
   // Disable prefetch as it's not supported by all neon/pg/postgis proxies during migration steps
+  if (!process.env.DATABASE_URL) {
+    throw new Error("DATABASE_URL environment variable is missing!");
+  }
+
   const migrationClient = postgres(process.env.DATABASE_URL, {
     max: 1,
     onnotice: () => {},
