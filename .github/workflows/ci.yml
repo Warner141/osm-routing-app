@@ -33,7 +33,7 @@ jobs:
       - name: Install PNPM Setup Engine
         uses: pnpm/action-setup@v3
         with:
-          version: 9
+          version: 11.9.0
 
       - name: Setup Node runtime
         uses: actions/setup-node@v4
