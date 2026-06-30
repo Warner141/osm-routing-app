@@ -68,8 +68,9 @@ jobs:
         run: |
           git diff --exit-code || (echo "Uncommitted changes or unexpected auto-formatting variants detected!" && exit 1)
 
-      - name: Safely Deploy/Sync Structural Changes to Staging Destination Database
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: pnpm --filter backend db:migrate
-        env:
-          DATABASE_URL: ${{ secrets.PRODUCTION_STAGING_DATABASE_URL }}
+      # For use once backend server is running
+      # - name: Safely Deploy/Sync Structural Changes to Staging Destination Database
+      #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      #   run: pnpm --filter backend db:migrate
+      #   env:
+      #     DATABASE_URL: ${{ secrets.PRODUCTION_STAGING_DATABASE_URL }}
