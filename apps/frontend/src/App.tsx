@@ -1,4 +1,4 @@
-import { ThemeProvider } from "../components/theme-provider";
+import { ThemeProvider } from "../@/components/theme-provider";
 import { TooltipProvider } from "../@/components/ui/tooltip";
 
 function App() {
