@@ -1,3 +1,4 @@
+import { ModeToggle } from "./@/components/mode-toggle";
 import { ThemeProvider } from "./@/components/theme-provider";
 import { TooltipProvider } from "./@/components/ui/tooltip";
 
@@ -5,7 +6,7 @@ function App() {
   return (
     <TooltipProvider>
       <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-        <div>test</div>
+        <ModeToggle></ModeToggle>
       </ThemeProvider>
     </TooltipProvider>
   );
