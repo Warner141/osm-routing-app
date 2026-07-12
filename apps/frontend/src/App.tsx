@@ -8,7 +8,9 @@ function App() {
     <TooltipProvider>
       <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
         <ModeToggle></ModeToggle>
-        <MapComponent />
+        <div className="h-100 w-200 m-4">
+          <MapComponent />
+        </div>
       </ThemeProvider>
     </TooltipProvider>
   );

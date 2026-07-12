@@ -21,5 +21,5 @@ export const MapComponent: React.FC = () => {
     };
   }, []);
 
-  return <div ref={mapContainerRef} style={{ width: "80%", height: "400px" }} />;
+  return <div ref={mapContainerRef} style={{ width: "100%", height: "100%" }} />;
 };
