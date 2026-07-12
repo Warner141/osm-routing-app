@@ -8,3 +8,7 @@ drizzle/
 osm2po-debug/
 *.osm.pbf
 !apps/backend/drizzle/
+
+
+#Test Data
+testing-data/
